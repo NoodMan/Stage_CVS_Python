@@ -1,3 +1,20 @@
+#CODE QUI AFFICHE LIGNE PAR LIGNE sans les 2 premiers lignes
+filename = "export_contacts_1652774627_2.csv"
+lineCount = 0
+with open(filename) as F:
+    for line in F:
+        if (lineCount >= 2): #pour enlever les deux premiers lignes
+           x = line.replace(";", ",") 
+           print (x)
+            #print(x[1])# me donne uniquement un caractere et non la ligne!!!!
+            #print(line)
+        lineCount += 1
+
+
+
+
+
+
 # # CODE TEST CONVERSION EN INT (ECHEC)
 # import csv # on import csv
 # from itertools import count
@@ -38,10 +55,11 @@
 
 # with open(sample_csv, "r") as csv_file:
 #     csv_reader = csv.reader(csv_file)
+#     count = 0
 #     for line in csv_reader:
-#         count = 0
-#         if count > 1:
-#             count += 1
+#        if (count > 0):
+#            count +=1
+       
 # print(line)
 
 
