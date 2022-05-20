@@ -1,0 +1,63 @@
+#CODE POUR MINI API QUI DONNE UN FRUIT AU HASARD A CHAQUE REACTIALISATION
+from crypt import methods
+from flask import Flask
+import json
+import random
+from pip import main
+
+app = Flask(__name__)
+@app.route("/get-fruit", methods=['GET'])
+
+def getFruit():
+    
+    listFruit = ['apple', 'orange', 'banana']
+    choiseFruit = listFruit[random.randint(0, 2)]
+    
+    return json.dumps({"fruit": choiseFruit})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    print("api Start !")
+    
+    
+#CODE POUR ECRIR TON NOM ET AGE DANS URL DU NAVIGATEUR   
+# from crypt import methods
+# from flask import Flask
+# import json
+# import random
+
+# from pip import main
+
+# app = Flask(__name__)
+
+# @app.route("/get/<name>/<years>", methods=['GET'])
+
+# def getInfo(name, years):
+#     return "tu t'appelle " + name + " et tu as " + years
+
+# if __name__ == '__main__':
+#     app.run(debug=True)
+#     print("api Start !")
+    
+
+# from crypt import methods
+# from flask import Flask, request
+# import json
+# import requests
+
+# app = Flask(__name__)
+
+# playerList = []
+
+# @app.route('/add-player', methods=['POST'])
+# def addPlayer():
+#     data = request.get_json()
+#     if "Username" in data : 
+#         playerList.append(data["Username"])
+#         return"Created !", 200
+#     else: 
+#         return 'Bad request', 400
+
+# if __name__ == '__main__':
+#     app.run(debug=True)
+ 

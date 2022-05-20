@@ -74,7 +74,7 @@
 
 # # fichier à lire en mode r (reading)
 # filename_o = r'export_contacts_1652774627_2.csv'
-# filename_n = r'Contact_python.csv'
+# # filename_n = r'Test_python.csv'
 # data = []  # on déclare une liste vide pour les datas
 
 # with open(filename_o) as csvfile:  # on lit le fichier que je renomme avec un alias (as)
@@ -144,14 +144,15 @@
 # for raw in reader:
 #     print(raw)
 
+
 #CODE POUR FAIRE UNE RECHERCHE PAR VALEUR NE FONCTIONNE PAS        
 # import pandas
-# sortie = pandas.read_csv('Contact_python.csv', usecols=['Rue']) 
+# sortie = pandas.read_csv('Test_python.csv', usecols=['Rue']) 
 # print(sortie)
 
 #CODE POUR METTRE UN SEPARATEUR ENTRE LES VALEURS MAIS NE FONCTIONNE PAS
 # import pandas
-# sortie = pandas.read_csv('Contact_python.csv', sep='#',)
+# sortie = pandas.read_csv('Test_python.csv', sep='#',)
 # print(sortie)
 
 #CODE POUR CHANGER LES CLES (ENTETE) ne fonctionne pas
@@ -164,66 +165,154 @@
 # #Exporting to CSV file
 # correct_df.to_csv(r'Contact_python.csv', index=False,header=True)
 
-#CODE POUR MINI API QUI DONNE UN FRUIT AU HASARD A CHAQUE REACTIALISATION
-from crypt import methods
-from flask import Flask
+
+
+
+
+
+#CODE TEST FUSION ENTRE DEUX FICHIER CSV ECHEC!!
+
+#import pandas as pd
+
+# # set files path
+# sales1 = "Test_CSV_Python/export_contacts_1652774627_2.csv"
+# sales2 = "Test_CSV_Python/Test_python.csv"
+
+# print("*** Merging multiple csv files into a single pandas dataframe ***")
+
+# # merge files
+# dataFrame = pd.concat(
+#    map(pd.read_csv, [sales1, sales2]), ignore_index=True)
+# print(dataFrame)
+
+
+# import pandas as pd
+  
+# # merging two csv files
+# df = pd.concat(
+#     map(pd.read_csv, ['Test_CSV_Python/export_contacts_1652774627_2.csv', 'Test_CSV_Python/Test_python.csv']), ignore_index=True)
+# print(df) 
+
+
+# import pandas as pd
+
+# a = pd.read_csv ('Test_CSV_Python/export_contacts_1652774627_2.csv')
+# b = pd.read_csv ('Test_CSV_Python/Test_python.csv')
+# b = b.dropna(axis=1)
+# merged = a.merge(b, on='title')
+# merged.to_csv("output.csv", index=False)
+
+# import glob
+
+# interesting_files = glob.glob("*.csv") 
+
+# header_saved = False
+# with open('export_contacts_1652774627_2.csv','Test_python.csv') as fout:
+#     for filename in interesting_files:
+#         with open(filename) as fin:
+#             header = next(fin)
+#             if not header_saved:
+#                 fout.write(header)
+#                 header_saved = True
+#             for line in fin:
+#                 fout.write(line)
+
+from datetime import datetime
 import json
-import random
-from pip import main
+import requests
+import sys
+import os
+import csv
 
-app = Flask(__name__)
-@app.route("/get-fruit", methods=['GET'])
+response = r'export_contacts_1652774627_2.csv'
+stats = json.loads(response)
 
-def getFruit():
-    
-    listFruit = ['apple', 'orange', 'banana']
-    choiseFruit = listFruit[random.randint(0, 2)]
-    
-    return json.dumps({"fruit": choiseFruit})
+stats = list(stats)
 
-if __name__ == '__main__':
-    app.run(debug=True)
-    print("api Start !")
-    
-    
-#CODE POUR ECRIR TON NOM ET AGE DANS URL DU NAVIGATEUR   
-# from crypt import methods
-# from flask import Flask
-# import json
-# import random
+newObject = {
+    "Id de la société": 'int',
+    "Société": "string",
+    "Rue": "string",
+    "Code postal": "int",
+    "Ville": "string",
+    "Pays": "string",
+    "Siret": "int",
+    "TVA intracommunautaire": "int",
+    "Code tier": "int",
+    "Langue": "string",
+    "Commentaires": "string",
+    "Catègories": "string",
+    "Statut client": "string",
+    "Statut prospect": "string", 
+    "Commercial responsable": "string", 
+    "Identifiant du contact" :"int", 
+    "Civilitè": "string",
+    "Prènom du contact":"string",
+    "Nom du contact" :"string",
+    "Email du contact" : "string",
+    "Tèlèphone fixe":"int", 
+    "Tèlèphone portable": "int", 
+    "Poste/job du contact":"string", 
+    "funnelStep":"string", 
+    "facebook":"string", 
+    "turnover":"int", 
+    "turnoverThisYear":"int", 
+    "creationDate":"int", 
+    "firstInvoiceDate":"int"  
+}
 
-# from pip import main
+listOfLineToModify = list()
 
-# app = Flask(__name__)
+for _obj in stats:
+    with open("export_contacts_1652774627_2.csv", 'r') as csv_file:
+        lines = csv.reader(csv_file, delimiter=';')
 
-# @app.route("/get/<name>/<years>", methods=['GET'])
+        for index, row in enumerate(lines):
+            if index < 1:
+                continue
 
-# def getInfo(name, years):
-#     return "tu t'appelle " + name + " et tu as " + years
+            if int(_obj["id"]) == int(row[0]):
+                newObject["Id de la société"] = _obj["Id de la société"]
+                newObject["Société"] = row[1]
+                newObject["Rue"] = row[2]
+                newObject["Code postal"] = row[3]
+                newObject["Ville"] = row[4]
+                newObject["Pays"] = row[5]
+                newObject["Siret"] = row[6]
+                newObject["TVA intracommunautaire"] = row[7]
+                newObject["Code tier"] = row[8]
+                newObject["Langue"] = row[9]
+                newObject["Commentaires"] = row[10]
+                newObject["Catègories"] = row[11]
+                newObject["Statut client"] = row[12]
+                newObject["Statut prospect"] = row[13]
+                newObject["Statut fournisseur"] = row[14]
+                newObject["Commercial responsable"] = row[15]
+                newObject["Identifiant du contact"] = row[16]
+                newObject["Civilitè"] = row[17]
+                newObject["Prènom du contact"] = row[18]
+                newObject["Nom du contact"] = row[19]
+                newObject["Email du contact"] = row[20]
+                newObject["Tèlèphone fixe"] = row[21]
+                newObject["Tèlèphone portable"] = row[22]
+                newObject["Poste/job du contact"] = row[23]
+                newObject["funnelStep"] = row[24]
+                newObject["facebook"] = row[25]
+                newObject["turnover"] = row[26]
+                newObject["turnoverThisYear"] = row[27]
+                newObject["creationDate"] = row[28]
+                newObject["firstInvoiceDate"] = row[29]
+                
+                listOfLineToModify.append(newObject)
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
-#     print("api Start !")
-    
 
-# from crypt import methods
-# from flask import Flask, request
-# import json
-# import requests
+print("listOfLineToModify ====> {} ".format(listOfLineToModify))
 
-# app = Flask(__name__)
+for newObject in listOfLineToModify:
+    print("newObject {}".format(newObject))
+    response = requests.patch(
+        "Test_python.csv"+str(newObject["id"]), json=newObject)
+  
+    print("\n")
+    print("response {}".format(response))
 
-# playerList = []
-
-# @app.route('/add-player', methods=['POST'])
-# def addPlayer():
-#     data = request.get_json()
-#     if "Username" in data : 
-#         playerList.append(data["Username"])
-#         return"Created !", 200
-#     else: 
-#         return 'Bad request', 400
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
- 
