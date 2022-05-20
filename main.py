@@ -216,6 +216,7 @@
 #                 header_saved = True
 #             for line in fin:
 #                 fout.write(line)
+encoding  = 'UTF-8'
 
 from datetime import datetime
 import json
